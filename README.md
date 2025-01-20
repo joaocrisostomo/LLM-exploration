@@ -1,7 +1,7 @@
 # Fine-Tuning Llama Vision 3.2 for Document Processing
 
-![Llama Vision 3.2](![Uploading Screenshot 2025-01-20 at 23.16.20.png…]()
-)
+![Llama Vision 3.2]<img width="778" alt="Screenshot 2025-01-20 at 23 16 20" src="https://github.com/user-attachments/assets/c2a89fb2-8793-4526-b47f-123c7b99cb70" />
+
 
 This repository contains a Jupyter notebook demonstrating how to fine-tune the Llama Vision 3.2 model for invoice processing using the Unsloth framework. The notebook guides you through the process of setting up the environment, preparing the data, fine-tuning the model, and using it for extracting payment information from invoices.
 
