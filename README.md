@@ -71,32 +71,6 @@ Edit
 from unsloth import FastVisionModel
 from transformers import TextStreamer
 
-# Load the fine-tuned model
-model = FastVisionModel.from_pretrained("path_to_your_model")
-tokenizer = model.get_tokenizer()
-
-# Prepare the image and text input for inference
-image = "path_to_invoice_image"
-instruction = "You are an expert of extracting fines and tolls information from invoices."
-
-messages = [
-    {"role": "user", "content": [{"type": "image", "image": image}, {"type": "text", "text": instruction}]}
-]
-
-inputs = tokenizer(
-    image, 
-    messages, 
-    add_special_tokens=False, 
-    return_tensors="pt"
-).to("cuda")
-
-# Generate and print the output
-text_streamer = TextStreamer(tokenizer, skip_prompt=True)
-output = model.generate(**inputs, streamer=text_streamer, max_new_tokens=200)
-print(output)
-Contributing
-If you have suggestions, improvements, or new features you'd like to contribute, feel free to submit a pull request or open an issue. Contributions are welcome!
-
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
