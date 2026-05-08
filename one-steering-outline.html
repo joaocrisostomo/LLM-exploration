@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>One Steering — Presentation Outline</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f6f8;
+    color: #1a1a2e;
+    line-height: 1.7;
+  }
+
+  /* ── page layout ── */
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* ── header ── */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 40px 48px 36px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+  }
+  .header h1 { font-size: 32px; font-weight: 800; margin-bottom: 6px; }
+  .header .meta { font-size: 14px; opacity: .5; line-height: 1.9; margin-top: 10px; }
+  .header .contest {
+    display: inline-block;
+    background: rgba(124,77,255,.3);
+    color: #d1c4e9;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  /* ── structure box ── */
+  .structure-box {
+    background: #fff;
+    border-left: 4px solid #7c4dff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  }
+  .structure-box h2 { font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; color: #7c4dff; margin-bottom: 12px; }
+  .structure-box p { font-size: 15px; color: #444; }
+  .loop-quote {
+    background: #f0ebff;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 15px;
+    color: #5e35b1;
+    font-style: italic;
+    margin-top: 14px;
+  }
+
+  /* ── act headers ── */
+  .act-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 40px 0 20px;
+  }
+  .act-badge {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .act-opening .act-badge { background: #ede7f6; color: #5e35b1; }
+  .act-1      .act-badge { background: #ffebee; color: #c62828; }
+  .act-2      .act-badge { background: #e0f7fa; color: #00695c; }
+  .act-3      .act-badge { background: #e8f5e9; color: #2e7d32; }
+
+  .act-title { font-size: 22px; font-weight: 700; }
+  .act-time  { font-size: 13px; color: #888; margin-left: auto; white-space: nowrap; }
+
+  .act-divider {
+    height: 2px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .act-opening .act-divider { background: #ede7f6; }
+  .act-1       .act-divider { background: #ffcdd2; }
+  .act-2       .act-divider { background: #b2ebf2; }
+  .act-3       .act-divider { background: #c8e6c9; }
+
+  /* ── slide cards ── */
+  .slide-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    border-left: 4px solid #ddd;
+    transition: box-shadow .2s;
+  }
+  .slide-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.1); }
+
+  .act-opening .slide-card { border-color: #9575cd; }
+  .act-1       .slide-card { border-color: #ef5350; }
+  .act-2       .slide-card { border-color: #26c6da; }
+  .act-3       .slide-card { border-color: #66bb6a; }
+
+  .slide-num {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 6px;
+  }
+  .slide-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1a1a2e;
+  }
+
+  .goal-tag {
+    display: inline-block;
+    background: #f5f5f5;
+    color: #555;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+
+  ul.points {
+    list-style: none;
+    padding: 0;
+  }
+  ul.points > li {
+    font-size: 15px;
+    color: #333;
+    padding: 4px 0 4px 18px;
+    position: relative;
+  }
+  ul.points > li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #bbb;
+    font-size: 13px;
+    top: 5px;
+  }
+  ul.points > li > ul {
+    list-style: none;
+    padding: 6px 0 4px 16px;
+  }
+  ul.points > li > ul > li {
+    font-size: 14px;
+    color: #555;
+    padding: 3px 0 3px 14px;
+    position: relative;
+  }
+  ul.points > li > ul > li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: #ccc;
+    top: 3px;
+  }
+
+  /* definition boxes */
+  .def-box {
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 8px 0 4px;
+    font-size: 14px;
+    color: #444;
+  }
+  .def-box strong { color: #1a1a2e; }
+
+  /* key message */
+  .keymsg {
+    margin-top: 16px;
+    background: #f9f9f9;
+    border-left: 3px solid #ccc;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #555;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+  }
+  .act-opening .keymsg { border-color: #9575cd; background: #f5f0ff; color: #5e35b1; }
+  .act-1       .keymsg { border-color: #ef5350; background: #fff5f5; color: #b71c1c; }
+  .act-2       .keymsg { border-color: #26c6da; background: #f0fdff; color: #006064; }
+  .act-3       .keymsg { border-color: #66bb6a; background: #f1fff2; color: #1b5e20; }
+
+  .talking-point {
+    margin-top: 12px;
+    background: #fffde7;
+    border-left: 3px solid #f9a825;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #795548;
+    border-radius: 0 8px 8px 0;
+  }
+  .talking-point::before { content: '💡 '; }
+
+  /* refs */
+  .ref-row {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.8;
+  }
+  .ref-row a { color: #1565c0; text-decoration: none; }
+  .ref-row a:hover { text-decoration: underline; }
+
+  /* ── numbers table ── */
+  .numbers-section {
+    margin-top: 40px;
+  }
+  .numbers-section h2 {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .num-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .num-card .n { font-size: 28px; font-weight: 800; color: #1a1a2e; }
+  .num-card .l { font-size: 13px; color: #888; }
+
+  /* ── checklist ── */
+  .checklist-section {
+    margin-top: 40px;
+  }
+  .checklist-section h2 {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  .checklist {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type=checkbox] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    accent-color: #7c4dff;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .check-item label { cursor: pointer; }
+  .check-item input:checked + label { text-decoration: line-through; color: #aaa; }
+
+  /* ── print hint ── */
+  .print-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 48px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .slide-card, .structure-box, .num-card, .checklist { box-shadow: none; border: 1px solid #eee; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- header -->
+  <div class="header">
+    <div class="contest">The Innovators 2026 · ROCCO</div>
+    <h1>One Steering</h1>
+    <p style="opacity:.65; font-size:16px; margin-top:4px;">12-Minute Presentation Outline</p>
+    <div class="meta">
+      TOMIA &amp; MACH — joint solution &nbsp;·&nbsp; 50+ combined years in roaming<br>
+      1:1 conversation guide with your manager
+    </div>
+  </div>
+
+  <!-- structure overview -->
+  <div class="structure-box">
+    <h2>Structure at a glance</h2>
+    <p>The presentation builds tension first. The audience lives through the challenges before the solution is revealed. The <strong>closed loop</strong> appears at the midpoint as the "aha" moment — earned, not assumed.</p>
+    <div class="loop-quote">Challenges → The missing link → <strong>Loop reveal</strong> → How we built it → Results</div>
+  </div>
+
+  <!-- ═══ OPENING ═══ -->
+  <div class="act-opening">
+    <div class="act-header">
+      <div class="act-badge">Opening</div>
+      <div class="act-title">Setting the scene</div>
+      <div class="act-time">0:00 – 1:00 &nbsp;·&nbsp; ~1 min</div>
+    </div>
+    <div class="act-divider"></div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 1</div>
+      <div class="slide-title">Title</div>
+      <div class="goal-tag">Goal: Set the stage and introduce the collaboration</div>
+      <ul class="points">
+        <li>Introduce both presenters and companies (Elisa Bortolussi, PM at MACH; Caetano Pessoa, Head of Marketing at TOMIA)</li>
+        <li>Frame this as a <strong>joint solution</strong> — not one company's pitch</li>
+        <li>Tease the problem: <em>"Managing wholesale commercial agreements has never been simple — and today it's at breaking point."</em></li>
+      </ul>
+      <div class="talking-point">Emphasise the 50+ combined years of roaming expertise. Then go straight into the challenges — no solution yet.</div>
+    </div>
+  </div>
+
+  <!-- ═══ ACT 1 ═══ -->
+  <div class="act-1">
+    <div class="act-header">
+      <div class="act-badge">Act 1</div>
+      <div class="act-title">The needle in a haystack — a fragmented market reality</div>
+      <div class="act-time">1:00 – 5:00 &nbsp;·&nbsp; ~4 min</div>
+    </div>
+    <div class="act-divider"></div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 3</div>
+      <div class="slide-title">Where Commercial Ambition Meets Operational Reality</div>
+      <div class="goal-tag">Goal: Show how IoT and multiple settlement mechanisms made the commercial side unmanageable</div>
+      <ul class="points">
+        <li>IoT growth turned one agreement per partner into <strong>4–5 agreements</strong>
+          <ul>
+            <li>Roaming IoT connections projected to grow <strong>300%</strong>, revenues from $13.8B (2023) to $23.4B by 2028.</li>
+            <li>38% of enterprises need IoT across multiple continents — traditional roaming models don't fit.</li>
+          </ul>
+        </li>
+        <li>Three settlement mechanisms now coexist: <strong>TAP, IoT Discount, BCE</strong> — often on separate billing platforms
+          <ul>
+            <li>
+              <div class="def-box"><strong>TAP (Transferred Account Procedure):</strong> The industry standard since 1991. Files exchanged monthly, per-event rating, linear charging only. Built for voice — cannot handle IoT micro-sessions, threshold-based pricing, or 5G complexity.</div>
+            </li>
+            <li>
+              <div class="def-box"><strong>BCE (Billing &amp; Charging Evolution):</strong> GSMA-standardised successor. Aggregated reports, flexible settlement windows (monthly/quarterly/annual/custom), multi-dimensional charging models. Purpose-built for IoT and 5G.</div>
+            </li>
+          </ul>
+        </li>
+        <li>Calculations handled manually → disputes, delayed settlements, slower cash flow
+          <ul>
+            <li>Pricing disputes alone cost <strong>$2M per MNO</strong>, taking up to 3 months to resolve.</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ref-row">
+        Sources:
+        <a href="https://kaleidointelligence.com/product/iot-roaming-market-strategies-outlook-2025/" target="_blank">Kaleido Intelligence</a> ·
+        <a href="https://iot-now.com/2025/11/19/154116-iot-and-mobile-operators-progress-and-pain-points/" target="_blank">IoT Now</a> ·
+        <a href="https://www.syniverse.com/blog/monetization/exploring-the-key-differences-between-bce-and-tap-proving-out-why-mobile" target="_blank">Syniverse – TAP vs BCE</a> ·
+        <a href="https://www.gsma.com/get-involved/working-groups/interoperability-data-specifications-and-settlement-group/billing-and-charging-evolution" target="_blank">GSMA BCE</a> ·
+        <a href="https://www.thefastmode.com/expert-opinion/26566-billing-and-charging-evolution-bce-bringing-out-the-full-value-of-the-5g-iot-roaming" target="_blank">The Fast Mode</a> ·
+        <a href="https://tomiaglobal.com/insights/5-roaming-challenges-in-5-minutes" target="_blank">TOMIA – 5 Roaming Challenges</a>
+      </div>
+      <div class="keymsg">Complexity has outpaced the tools operators currently use.</div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 4</div>
+      <div class="slide-title">The Right Side: Network Complexity</div>
+      <div class="goal-tag">Goal: Mirror the commercial problem on the engineering/network side</div>
+      <ul class="points">
+        <li>Every commercial segment requires its own network configuration; device types, access tech, and usage patterns all diverge</li>
+        <li>Ongoing 2G/3G phase-out forces continuous, dynamic steering
+          <ul>
+            <li><strong>278</strong> completed, planned, or in-progress 2G/3G switch-offs across <strong>83 countries</strong> — 2025 is the peak year (37 2G + 39 3G).</li>
+            <li>Ofcom has mapped predicted "2G Inbound Roaming Not-Spots" where legacy roaming will simply stop working.</li>
+          </ul>
+        </li>
+        <li>Clear financial link: higher network quality → higher data consumption → more revenue
+          <ul>
+            <li>5G users consume up to <strong>2.7× more mobile data</strong> than 4G users in leading markets.</li>
+            <li>EU tests: <strong>25%+ of roaming instances</strong> deliver suboptimal quality even when better was technically possible.</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ref-row">
+        Sources:
+        <a href="https://gsacom.com/paper/2g-3g-switch-off-july-2025/" target="_blank">GSA – 2G/3G Switch-Off 2025</a> ·
+        <a href="https://www.gsmaintelligence.com/research/network-sunsets-q3-2025" target="_blank">GSMA Intelligence – Network Sunsets</a> ·
+        <a href="https://www.ofcom.org.uk/phones-and-broadband/coverage-and-speeds/preparing-for-2g-switch-off---devices-using-international-roaming-sims-2g-network-coverage-data-and-predicted-new-2g-inbound-roaming-not-spots" target="_blank">Ofcom</a> ·
+        <a href="https://insights.opensignal.com/reports/2021/06/global-state-of-the-mobile-network" target="_blank">Opensignal</a> ·
+        <a href="https://digital-strategy.ec.europa.eu/en/library/roaming-performance-study" target="_blank">European Commission – Roaming Performance Study</a>
+      </div>
+      <div class="keymsg">Steering is not just a technical function — it's a financial lever. If done manually, it is like <strong>finding a needle in a haystack</strong>.</div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 5</div>
+      <div class="slide-title">A Fragmented Market Reality</div>
+      <div class="goal-tag">Goal: Show the industry-wide gap — managed in isolation, partial automation, call for simplification</div>
+      <ul class="points">
+        <li>Commercial agreements, settlement, and steering managed in <strong>complete silos</strong> — some operators still on Excel</li>
+        <li><strong>$2–2.3 billion</strong> in annual revenue leakage industry-wide from billing errors and operational inefficiencies</li>
+        <li><strong>60–70% of margin-impacting roaming events</strong> occur in the first 30 seconds of network attach — no human can react in time</li>
+        <li>Operators lose <strong>20–30% of potential wholesale roaming margin</strong> because the revenue side stays manual while the network side is already automated</li>
+      </ul>
+      <div class="ref-row">
+        Sources:
+        <a href="https://www.juniperresearch.com/whitepapers/mobile-roaming-the-2-bn-revenue-leakage" target="_blank">Juniper Research – $2B Revenue Leakage</a> ·
+        <a href="https://www.bankaiinfotech.com/blogs/unified-roaming-revenue-engine/" target="_blank">Bankai Infotech</a>
+      </div>
+      <div class="keymsg">The problem isn't complexity — it's that the two sides have never talked to each other.</div>
+    </div>
+  </div>
+
+  <!-- ═══ ACT 2 ═══ -->
+  <div class="act-2">
+    <div class="act-header">
+      <div class="act-badge">Act 2</div>
+      <div class="act-title">Closing the loop</div>
+      <div class="act-time">5:00 – 9:00 &nbsp;·&nbsp; ~4 min</div>
+    </div>
+    <div class="act-divider"></div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 5</div>
+      <div class="slide-title">The Loop Reveal</div>
+      <div class="goal-tag">Goal: The "aha" moment — show what was missing and what you built</div>
+      <ul class="points">
+        <li>Reveal the closed loop for the first time: <strong>Commercial agreements → One Steering → Network execution → (back)</strong></li>
+        <li>Left side = MACH. Right side = TOMIA. Centre = the connection that never existed before.</li>
+        <li><em>"Two sides that never talked to each other. We connected them."</em></li>
+      </ul>
+      <div class="keymsg">A closed loop — commercial intent and network behavior, finally working as one.</div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 6</div>
+      <div class="slide-title">One Steering: The Solution</div>
+      <div class="goal-tag">Goal: Reintroduce the loop — now working, now complete</div>
+      <ul class="points">
+        <li>Show the same loop diagram, but now fully connected</li>
+        <li><strong>MACH – One Agreement (left side):</strong> Automated forecasting, commitment tracking, steering recommendations with estimated discount cost — downloadable or API-provisioned</li>
+        <li><strong>TOMIA – IPN / Intelligent Preferred Network (right side):</strong> Segment-specific traffic distributions, granular quality monitoring, city/region-level steering rules</li>
+      </ul>
+      <div class="keymsg">Neither company could deliver this alone. The power is in the combination.</div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 7</div>
+      <div class="slide-title">One Steering in Practice: Three Scenarios</div>
+      <div class="goal-tag">Goal: Make the solution concrete with real-world examples</div>
+      <ul class="points">
+        <li><strong>Example 1 — Group commitment:</strong> A group-level commitment spans multiple country affiliates. If one affiliate is miscalculated → penalty. One Steering distributes targets correctly across all.</li>
+        <li><strong>Example 2 — Retail + IoT cross-commitment:</strong> Commercial team negotiates a joint retail/IoT commitment. Complex accruals and steering — handled automatically.</li>
+        <li><strong>Example 3 — City-level steering (US):</strong> Network A preferred nationwide. IPN detects Network B delivers better coverage in Washington, DC → auto-steers subscribers there without breaking the commercial commitment.</li>
+      </ul>
+      <div class="keymsg">Works at scale, with granularity, in real-world messy environments.</div>
+    </div>
+
+    <div class="slide-card">
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 8</div>
+      <div class="slide-title">Competence in Delivery: 50+ Years of Roaming for Your Needs</div>
+      <div class="goal-tag">Goal: Establish credibility — this collaboration is uniquely qualified to deliver One Steering</div>
+      <ul class="points">
+        <li><strong>TOMIA — Network Excellence:</strong> Led the development of roaming value-added services, delivering advanced steering</li>
+        <li><strong>MACH — Commercial Intelligence:</strong> Pioneered the clearing market, enabling accurate and efficient settlement</li>
+        <li>Together: <em>"The perfect combination of Commercial Intelligence and Network Excellence — a closed loop in which commercial intent and network behavior finally work together as one."</em></li>
+      </ul>
+      <div class="keymsg act-2">This collaboration is what makes One Steering <strong>uniquely possible</strong>.</div>
+    </div>
+
+      <div class="slide-num">Slide 9</div>
+      <div class="slide-title">The Technology</div>
+      <div class="goal-tag">Goal: Build credibility with technical depth — keep it to 45 seconds</div>
+      <ul class="points">
+        <li><strong>Infrastructure:</strong> AWS S3 for scalability and availability</li>
+        <li><strong>Database layer:</strong> Oracle SQL + Redis + Hadoop for diverse workloads</li>
+        <li><strong>Calculations:</strong> Core processing in SQL; scoring via ML (K-means clustering)</li>
+        <li><strong>Messaging:</strong> ZeroMQ for real-time internal messaging</li>
+        <li><strong>Testing:</strong> QAT emulation for full system verification</li>
+      </ul>
+      <div class="keymsg">Built for enterprise scale — speed, reliability, and flexibility.</div>
+    </div>
+  </div>
+
+  <!-- ═══ ACT 3 ═══ -->
+  <div class="act-3">
+    <div class="act-header">
+      <div class="act-badge">Act 3</div>
+      <div class="act-title">Value &amp; future</div>
+      <div class="act-time">9:00 – 12:00 &nbsp;·&nbsp; ~3 min</div>
+    </div>
+    <div class="act-divider"></div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 10</div>
+      <div class="slide-title">The Business Model: Aligning Strategy with Execution</div>
+      <div class="goal-tag">Goal: Show the 5 business value propositions — tested on real data</div>
+      <ul class="points">
+        <li>Logic tested on <strong>live data from multiple operator profiles</strong></li>
+        <li>Estimated potential annual savings: <strong>4–7%</strong> in roaming costs</li>
+        <li>Benefits across three teams:
+          <ul>
+            <li><strong>Commercial:</strong> Maximize financial outcomes, avoid commitment penalties</li>
+            <li><strong>Engineering:</strong> Evidence-based, real-world feasibility checks</li>
+            <li><strong>Finance:</strong> Fewer disputes, faster cash flow, less manual reconciliation</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="keymsg">Not theoretical — estimated on real operator data.</div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 11</div>
+      <div class="slide-title">Plan in Delivery: Roadmap</div>
+      <div class="goal-tag">Goal: Show momentum and future vision</div>
+      <ul class="points">
+        <li><strong>MACH – One Agreement:</strong>
+          <ul>
+            <li>Live now: Contracts — group commitments &amp; IoT effective rates</li>
+            <li>Short-term: IMSI-based discount agreements</li>
+            <li>Next: Cross-commitment calculations</li>
+            <li>Following: BCE integration</li>
+          </ul>
+        </li>
+        <li><strong>TOMIA – IPN:</strong>
+          <ul>
+            <li>Live now: Network quality scoring, region/city-level differentiated steering</li>
+            <li>Next: <strong>AI agent</strong> — chatbot for traffic split distribution + troubleshooting</li>
+            <li>API — dedicated steering per lac-cell</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="keymsg">A living product with a clear, ambitious roadmap.</div>
+    </div>
+
+    <div class="slide-card">
+      <div class="slide-num">Slide 12</div>
+      <div class="slide-title">Closing Statement</div>
+      <div class="goal-tag">Goal: Leave a strong, memorable final impression</div>
+      <ul class="points">
+        <li>Return to the loop one last time: <em>"The loop is closed."</em></li>
+        <li>Up to <strong>7% annual cost savings</strong>, built by <strong>50+ combined years of roaming expertise</strong></li>
+        <li>Call to action: <em>"One Steering aligns commercial strategy with network execution, turning insights into automated actions and providing a holistic perspective and enhanced control of the business. It helps operators optimize commitments, unlock up to 7% in annual cost savings, and enables stronger collaboration across commercial, network, and finance teams."</em></li>
+        <li>Contest context: Genesis Lion's Den, <strong>June 15–16, Limerick, Ireland</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ KEY NUMBERS ═══ -->
+  <div class="numbers-section">
+    <h2>Quick reference — key numbers</h2>
+    <div class="numbers-grid">
+      <div class="num-card"><div class="n">4–5×</div><div class="l">Agreement multiplication per partner</div></div>
+      <div class="num-card"><div class="n">300%</div><div class="l">Projected IoT roaming connection growth</div></div>
+      <div class="num-card"><div class="n">$2.3B</div><div class="l">Annual industry revenue leakage</div></div>
+      <div class="num-card"><div class="n">4–7%</div><div class="l">Estimated annual cost savings</div></div>
+      <div class="num-card"><div class="n">278</div><div class="l">2G/3G shutdowns across 83 countries</div></div>
+      <div class="num-card"><div class="n">30 sec</div><div class="l">Window for 60–70% of margin-impacting events</div></div>
+      <div class="num-card"><div class="n">50+</div><div class="l">Combined years of roaming expertise (TOMIA + MACH)</div></div>
+      <div class="num-card"><div class="n">Jun 15–16</div><div class="l">Genesis Lion's Den · Limerick, Ireland</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ CHECKLIST ═══ -->
+  <div class="checklist-section">
+    <h2>Manager meeting checklist</h2>
+    <div class="checklist">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">The needle in a haystack — IoT growth, TAP vs BCE, manual chaos</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">Network problem: 2G/3G shutdowns, quality = revenue</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">The gap: $2.3B leakage, 30-second window, Excel still in use</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Loop reveal — the "aha" moment: two sides finally connected</label></div>
+      <div class="check-item"><input type="checkbox" id="c5a"><label for="c5a">Loop reveal — the “aha” moment</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">MACH = Commercial Intelligence · TOMIA = Network Excellence</label></div>
+      <div class="check-item"><input type="checkbox" id="c5b"><label for="c5b">50+ years — unique collaboration, only possible together</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">3 examples: group commitment, cross-commitment, city-level steering</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Business model: 5 value props, 4–7% savings on real data</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">Tech stack (brief — 45 sec)</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">Roadmap: MACH (Contracts→IMSI→Cross→BCE) · TOMIA (AI agent + lac-cell API)</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">Summary: holistic perspective, enhanced control, stronger collaboration</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">Contest context: The Innovators 2026 · ROCCO Genesis June 15–16 Limerick</label></div>
+    </div>
+  </div>
+
+  <div class="print-hint">Open in any browser · Checklist is interactive · Print with Cmd+P / Ctrl+P for a paper copy</div>
+
+</div>
+</body>
+</html>

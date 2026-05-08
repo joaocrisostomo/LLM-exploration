@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>One Steering — The Innovators 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #07080f;
+    color: #f0f0f0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+
+  #deck {
+    width: 960px;
+    height: 540px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 52px 68px;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity .4s ease, transform .4s ease;
+    pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .slide.exit   { opacity: 0; transform: translateX(-50px); }
+
+  /* act colour system */
+  .act0 { border-left: 5px solid #7c4dff; } /* opening  */
+  .act1 { border-left: 5px solid #ef5350; } /* problem  */
+  .act2 { border-left: 5px solid #26c6da; } /* solution */
+  .act3 { border-left: 5px solid #66bb6a; } /* value    */
+  .act4 { border-left: 5px solid #7c4dff; } /* close    */
+
+  /* act pill */
+  .act-pill {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    width: fit-content;
+  }
+  .act0 .act-pill { background: rgba(124,77,255,.18); color: #b39ddb; }
+  .act1 .act-pill { background: rgba(239,83,80,.18);  color: #ef9a9a; }
+  .act2 .act-pill { background: rgba(38,198,218,.18); color: #80deea; }
+  .act3 .act-pill { background: rgba(102,187,106,.18);color: #a5d6a7; }
+  .act4 .act-pill { background: rgba(124,77,255,.18); color: #b39ddb; }
+
+  h1 { font-size: 44px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+  h2 { font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 18px; }
+  .sub { font-size: 18px; opacity: .5; margin-bottom: 28px; }
+
+  p, li { font-size: 17px; line-height: 1.7; opacity: .85; }
+  ul { list-style: none; }
+  ul li::before { content: '→ '; opacity: .35; }
+  ul li + li { margin-top: 9px; }
+
+  /* ── THE LOOP DIAGRAM ── */
+  .loop-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-top: 20px;
+  }
+  .loop-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 18px 22px;
+    min-width: 148px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.4;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .loop-node:hover { transform: translateY(-3px); }
+  .node-mach  { background: rgba(38,198,218,.12); border: 1.5px solid rgba(38,198,218,.4); }
+  .node-one   { background: rgba(124,77,255,.18); border: 1.5px solid rgba(124,77,255,.5); font-size: 17px; min-width: 160px; }
+  .node-tomia { background: rgba(102,187,106,.12); border: 1.5px solid rgba(102,187,106,.4); }
+  .node-broken { background: rgba(239,83,80,.08); border: 1.5px dashed rgba(239,83,80,.4); opacity: .65; }
+  .node-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; opacity: .45; margin-bottom: 4px; }
+
+  .loop-arrow {
+    font-size: 22px;
+    opacity: .3;
+    padding: 0 10px;
+    flex-shrink: 0;
+  }
+  .loop-arrow.broken { color: #ef5350; opacity: .5; }
+
+  /* broken-X overlay */
+  .break-x {
+    color: #ef5350;
+    font-size: 28px;
+    font-weight: 900;
+    opacity: .7;
+    padding: 0 6px;
+  }
+
+  /* ── STAT CARDS ── */
+  .stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .stat {
+    flex: 1;
+    background: rgba(255,255,255,.045);
+    border-radius: 12px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .stat .num {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: #29b6f6;
+  }
+  .stat .lbl { font-size: 12px; opacity: .5; margin-top: 6px; line-height: 1.4; }
+
+  /* ── TWO COLUMNS ── */
+  .cols { display: flex; gap: 22px; margin-top: 20px; }
+  .col {
+    flex: 1;
+    background: rgba(255,255,255,.04);
+    border-radius: 12px;
+    padding: 20px 18px;
+  }
+  .col h3 {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: .45;
+    margin-bottom: 12px;
+  }
+  .col p, .col li { font-size: 15px; line-height: 1.6; }
+
+  .col.mach-col  { border-top: 2px solid rgba(38,198,218,.5); }
+  .col.tomia-col { border-top: 2px solid rgba(102,187,106,.5); }
+
+  /* ── QUOTE ── */
+  .quote {
+    font-size: 20px;
+    font-style: italic;
+    opacity: .65;
+    border-left: 3px solid currentColor;
+    padding-left: 18px;
+    margin-top: 24px;
+    line-height: 1.65;
+  }
+  .act1 .quote { color: #ef5350; }
+  .act4 .quote { color: #7c4dff; }
+
+  /* ── KEY MESSAGE BAR ── */
+  .keymsg {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,.04);
+    padding: 12px 68px;
+    font-size: 13.5px;
+    opacity: .55;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .keymsg strong { opacity: 1; }
+  .act0 .keymsg strong, .act4 .keymsg strong { color: #b39ddb; }
+  .act1 .keymsg strong { color: #ef9a9a; }
+  .act2 .keymsg strong { color: #80deea; }
+  .act3 .keymsg strong { color: #a5d6a7; }
+
+  /* ── REFS ── */
+  .refs { font-size: 11.5px; opacity: .3; margin-top: 14px; line-height: 1.7; }
+  .refs a { color: #29b6f6; text-decoration: none; }
+  .refs a:hover { text-decoration: underline; }
+
+  /* ── ROADMAP TIMELINE ── */
+  .timeline { display: flex; gap: 0; margin-top: 28px; position: relative; }
+  .timeline::before {
+    content: ''; position: absolute;
+    top: 18px; left: 0; right: 0;
+    height: 2px; background: rgba(255,255,255,.1);
+  }
+  .titem {
+    flex: 1; text-align: center;
+    padding-top: 44px; position: relative;
+    font-size: 13px; opacity: .8; line-height: 1.4;
+  }
+  .titem::before {
+    content: ''; position: absolute;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #29b6f6;
+  }
+  .titem.done::before  { background: #66bb6a; }
+  .titem.future::before { background: rgba(255,255,255,.2); }
+  .tlabel { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; opacity: .4; margin-bottom: 5px; }
+
+  /* ── BIG CLOSE STAT ── */
+  .big-num {
+    font-size: 80px; font-weight: 900;
+    color: #7c4dff; line-height: 1;
+    margin: 8px 0 4px;
+  }
+
+  /* ── CHECKLIST ── */
+  .check-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 11px 32px; margin-top: 18px;
+  }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; opacity: .82; }
+  .box { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.25); border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+
+  /* ── NAV ── */
+  #nav {
+    display: flex; align-items: center;
+    gap: 18px; margin-top: 16px;
+  }
+  #nav button {
+    background: rgba(255,255,255,.07);
+    border: none; color: #fff;
+    padding: 9px 26px; border-radius: 8px;
+    font-size: 14px; cursor: pointer;
+    transition: background .2s;
+  }
+  #nav button:hover  { background: rgba(255,255,255,.14); }
+  #nav button:disabled { opacity: .2; cursor: default; }
+
+  #progress { display: flex; gap: 5px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,.18); cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .dot.active { background: #29b6f6; transform: scale(1.4); }
+
+  /* act-group dots */
+  .dot-sep { width: 1px; height: 7px; background: rgba(255,255,255,.12); margin: 0 4px; align-self: center; }
+
+  #counter { font-size: 12px; opacity: .3; min-width: 48px; text-align: center; }
+
+  /* ── TITLE META ── */
+  .title-meta { font-size: 14px; opacity: .35; margin-top: 32px; line-height: 1.9; }
+
+  /* highlight inline */
+  .hl-cyan  { color: #80deea; font-weight: 600; opacity: 1; }
+  .hl-green { color: #a5d6a7; font-weight: 600; opacity: 1; }
+  .hl-red   { color: #ef9a9a; font-weight: 600; opacity: 1; }
+  .hl-purp  { color: #b39ddb; font-weight: 600; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ══════════════════════════════════════════
+       OPENING  (1 slide)
+  ══════════════════════════════════════════ -->
+
+  <!-- S1: Title -->
+  <div class="slide act0 active">
+    <div class="act-pill">The Innovators 2026 · ROCCO</div>
+    <h1>One Steering</h1>
+    <p class="sub">Aligning commercial and network execution across a complex roaming environment.</p>
+    <p class="title-meta">
+      TOMIA &amp; MACH — joint solution &nbsp;·&nbsp; 50+ combined years in roaming<br>
+      Elisa Bortolussi, PM at MACH &nbsp;|&nbsp; Caetano Pessoa, Head of Marketing at TOMIA
+    </p>
+    <div class="keymsg">Managing wholesale commercial agreements has never been simple — and today it is a <strong>key operational challenge</strong> for commercial, finance, and engineering teams.</div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       ACT 1 — THE CHALLENGES  (3 slides)
+  ══════════════════════════════════════════ -->
+
+  <!-- S2: The Agreement Explosion -->
+  <div class="slide act1">
+    <div class="act-pill">Act 1 · The needle in a haystack</div>
+    <h2>The Agreement Explosion</h2>
+
+    <!-- layout: bullets left, SVG pipeline right -->
+    <div style="display:flex; gap:32px; align-items:flex-start; margin-top:14px;">
+      <div style="flex:1;">
+        <ul>
+          <li>IoT growth turned one agreement per partner into <span class="hl-red">4–5 agreements</span> — no longer a single retail-focused segment</li>
+          <li>Three settlement mechanisms now coexist, each on separate billing platforms</li>
+          <li>Calculations handled manually → discrepancies, delayed settlements, slower cash flow</li>
+        </ul>
+        <div class="stats" style="margin-top:18px; flex-direction:column; gap:10px; display:flex;">
+          <div class="stat" style="text-align:left; padding:10px 14px; display:flex; align-items:center; gap:14px;">
+            <div class="num" style="font-size:26px; min-width:52px;">4–5×</div><div class="lbl" style="text-align:left;">Agreement multiplication per partner</div>
+          </div>
+          <div class="stat" style="text-align:left; padding:10px 14px; display:flex; align-items:center; gap:14px;">
+            <div class="num" style="font-size:26px; min-width:52px; color:#ef9a9a;">$2M</div><div class="lbl" style="text-align:left;">Dispute cost per MNO · up to 3 months</div>
+          </div>
+        </div>
+        <div class="refs" style="margin-top:12px;">
+          <a href="https://kaleidointelligence.com/product/iot-roaming-market-strategies-outlook-2025/" target="_blank">Kaleido Intelligence</a> ·
+          <a href="https://www.gsma.com/get-involved/working-groups/interoperability-data-specifications-and-settlement-group/billing-and-charging-evolution" target="_blank">GSMA BCE</a> ·
+          <a href="https://tomiaglobal.com/insights/5-roaming-challenges-in-5-minutes" target="_blank">TOMIA</a>
+        </div>
+      </div>
+
+      <!-- SVG: three parallel pipelines (TAP / IoT Discount / BCE) -->
+      <div style="flex:0 0 300px; padding-top:4px;">
+        <svg viewBox="0 0 300 210" width="300" height="210" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+          <defs>
+            <linearGradient id="pipe-tap" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ef5350;stop-opacity:.7"/>
+              <stop offset="100%" style="stop-color:#ef5350;stop-opacity:.2"/>
+            </linearGradient>
+            <linearGradient id="pipe-iot" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ffa726;stop-opacity:.7"/>
+              <stop offset="100%" style="stop-color:#ffa726;stop-opacity:.2"/>
+            </linearGradient>
+            <linearGradient id="pipe-bce" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ab47bc;stop-opacity:.7"/>
+              <stop offset="100%" style="stop-color:#ab47bc;stop-opacity:.2"/>
+            </linearGradient>
+            <marker id="arr-tap" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#ef5350" opacity=".7"/>
+            </marker>
+            <marker id="arr-iot" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#ffa726" opacity=".7"/>
+            </marker>
+            <marker id="arr-bce" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#ab47bc" opacity=".7"/>
+            </marker>
+          </defs>
+
+          <!-- labels left -->
+          <text x="0" y="44" font-size="12" fill="#ef9a9a" font-family="Segoe UI,Arial,sans-serif" font-weight="600">TAP</text>
+          <text x="0" y="109" font-size="12" fill="#ffcc80" font-family="Segoe UI,Arial,sans-serif" font-weight="600">IoT Discount</text>
+          <text x="0" y="174" font-size="12" fill="#ce93d8" font-family="Segoe UI,Arial,sans-serif" font-weight="600">BCE</text>
+
+          <!-- pipe 1: TAP -->
+          <rect x="80" y="28" width="170" height="22" rx="11" fill="url(#pipe-tap)" opacity=".25"/>
+          <line x1="80" y1="39" x2="244" y2="39" stroke="#ef5350" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-tap)" opacity=".8"/>
+
+          <!-- pipe 2: IoT Discount -->
+          <rect x="80" y="93" width="170" height="22" rx="11" fill="url(#pipe-iot)" opacity=".25"/>
+          <line x1="80" y1="104" x2="244" y2="104" stroke="#ffa726" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-iot)" opacity=".8"/>
+
+          <!-- pipe 3: BCE -->
+          <rect x="80" y="158" width="170" height="22" rx="11" fill="url(#pipe-bce)" opacity=".25"/>
+          <line x1="80" y1="169" x2="244" y2="169" stroke="#ab47bc" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-bce)" opacity=".8"/>
+
+          <!-- "no connection" X between pipes -->
+          <text x="256" y="44"  font-size="14" fill="#ef5350" opacity=".5" font-family="Segoe UI,Arial,sans-serif">↛</text>
+          <text x="256" y="109" font-size="14" fill="#ffa726" opacity=".5" font-family="Segoe UI,Arial,sans-serif">↛</text>
+          <text x="256" y="174" font-size="14" fill="#ab47bc" opacity=".5" font-family="Segoe UI,Arial,sans-serif">↛</text>
+
+          <!-- caption -->
+          <text x="150" y="204" font-size="10" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif">Three mechanisms. Three platforms. Zero connection.</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="keymsg"><strong>TAP</strong> = per-event voice-era billing since 1991. &nbsp;<strong>BCE</strong> = flexible, aggregated, IoT/5G-native successor.</div>
+  </div>
+
+  <!-- S3: Network side broken -->
+  <div class="slide act1">
+    <div class="act-pill">Act 1 · The needle in a haystack</div>
+    <h2>New Operational Demands</h2>
+    <ul>
+      <li>Steering services must replicate every commercial segment into multiple network configurations — device types, access technologies, usage patterns all diverge</li>
+      <li>Operators must dynamically steer subscribers amid the ongoing phase-out of <span class="hl-red">2G/3G networks</span> — <strong>278</strong> shutdowns across 83 countries, 2025 is peak year</li>
+      <li>Higher network quality → higher data consumption → <span class="hl-red">more revenue</span>. Operators must align commercial intent with real-time network behavior.</li>
+      <li>If done manually — it is like <span class="hl-red">finding a needle in a haystack</span></li>
+    </ul>
+    <div class="stats" style="margin-top:18px;">
+      <div class="stat"><div class="num">278</div><div class="lbl">2G/3G shutdowns across 83 countries</div></div>
+      <div class="stat"><div class="num">2.7×</div><div class="lbl">More data on 5G vs 4G</div></div>
+      <div class="stat"><div class="num">25%+</div><div class="lbl">Roaming instances with suboptimal quality (EU)</div></div>
+    </div>
+    <div class="refs">
+      <a href="https://gsacom.com/paper/2g-3g-switch-off-july-2025/" target="_blank">GSA 2G/3G Switch-Off 2025</a> ·
+      <a href="https://insights.opensignal.com/reports/2021/06/global-state-of-the-mobile-network" target="_blank">Opensignal</a> ·
+      <a href="https://digital-strategy.ec.europa.eu/en/library/roaming-performance-study" target="_blank">European Commission – Roaming Performance Study</a>
+    </div>
+    <div class="keymsg">Steering is not just a technical function — it's a <strong>financial lever</strong>.</div>
+  </div>
+
+  <!-- S4: A Fragmented Market Reality -->
+  <div class="slide act1">
+    <div class="act-pill">Act 1 · A fragmented market reality</div>
+    <h2>Managed in isolation — a market-wide gap</h2>
+    <div class="loop-wrap" style="margin-top:12px;">
+      <div class="loop-node node-broken">Commercial<br>agreements</div>
+      <div class="break-x">✕</div>
+      <div class="loop-node node-broken" style="min-width:160px; font-size:14px;">No cross-service<br>automation</div>
+      <div class="break-x">✕</div>
+      <div class="loop-node node-broken">Network<br>execution</div>
+    </div>
+    <ul style="margin-top:16px;">
+      <li>Commercial agreements, settlement processes, and steering decisions managed <span class="hl-red">in silos</span> — limiting alignment and efficiency</li>
+      <li>Most automation today is <span class="hl-red">partial</span>: focused on agreements <em>or</em> settlement <em>or</em> steering — never all three</li>
+      <li>Simplification doesn't mean fewer segments — it means <span class="hl-red">managing complexity more effectively</span> and making it predictable</li>
+      <li>The market longs for real-time analytics that don't just <em>inform</em> — but <span class="hl-red">enable actionable network execution</span></li>
+    </ul>
+    <div class="refs">
+      <a href="https://www.juniperresearch.com/whitepapers/mobile-roaming-the-2-bn-revenue-leakage" target="_blank">Juniper Research – $2B Revenue Leakage</a> ·
+      <a href="https://www.bankaiinfotech.com/blogs/unified-roaming-revenue-engine/" target="_blank">Bankai Infotech</a>
+    </div>
+    <div class="keymsg">Every commercial segment, settlement process, and network configuration has <strong>direct financial implications</strong>.</div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       ACT 2 — CLOSING THE LOOP  (4 slides)
+  ══════════════════════════════════════════ -->
+
+  <!-- S5: Loop reveal — the "aha" moment -->
+  <div class="slide act2">
+    <div class="act-pill">Act 2 · The solution</div>
+    <h2>What was missing — and what we built</h2>
+    <p style="opacity:.55; margin-bottom:4px;">Two sides that never talked to each other. We connected them.</p>
+    <div class="loop-wrap" style="margin-top:28px;">
+      <div class="loop-node node-mach">
+        <div class="node-label">MACH</div>
+        Commercial<br>agreements &amp;<br>commitments
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node node-one">
+        <div class="node-label">One Steering</div>
+        Automated<br>recommendations
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node node-tomia">
+        <div class="node-label">TOMIA</div>
+        Real-time<br>network<br>execution
+      </div>
+      <div class="loop-arrow">↩</div>
+    </div>
+    <div class="keymsg">A closed loop — <strong>commercial intent and network behavior, finally working as one.</strong></div>
+  </div>
+
+  <!-- S6: Solution detail -->
+  <div class="slide act2">
+    <div class="act-pill">Act 2 · The solution</div>
+    <h2>One Steering — removing the hassle</h2>
+    <div class="cols" style="margin-top:16px;">
+      <div class="col mach-col">
+        <h3>MACH — One Agreement</h3>
+        <p>Automated forecasting tracks each agreement's financial performance and commitment variances. Recommendation logic prioritises all group and individual commitments (highest to lowest), then the lowest average IoT outbound rate. Output: downloadable or API-provisioned to steering.</p>
+      </div>
+      <div class="col tomia-col">
+        <h3>TOMIA — IPN</h3>
+        <p>Receives country-level recommendations and intelligently splits traffic across all subscriber segments (NB-IoT, 5G SA, legacy). Continuously monitors network quality — applies dedicated steering per region or city when conditions deviate from the national norm.</p>
+      </div>
+    </div>
+    <div class="loop-wrap" style="margin-top:20px;">
+      <div class="loop-node node-mach" style="min-width:120px; font-size:14px;">Forecasts &amp;<br>recommends</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node node-one" style="font-size:14px;">One Steering<br><small style="opacity:.5">closed loop</small></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-node node-tomia" style="min-width:120px; font-size:14px;">Executes per<br>segment &amp; region</div>
+      <div class="loop-arrow">↩</div>
+    </div>
+    <div class="keymsg">Neither company could deliver this alone. <strong>The power is in the combination.</strong></div>
+  </div>
+
+  <!-- S7: Real-world examples -->
+  <div class="slide act2">
+    <div class="act-pill">Act 2 · The solution</div>
+    <h2>In practice — three scenarios</h2>
+    <div class="cols">
+      <div class="col mach-col">
+        <h3>Group commitment</h3>
+        <p>Commitment spans multiple country affiliates. One miscalculated affiliate → penalty. One Steering distributes targets correctly across all.</p>
+      </div>
+      <div class="col tomia-col">
+        <h3>Retail + IoT cross-commitment</h3>
+        <p>Commercial team negotiates a joint retail/IoT commitment. Complex accruals and steering — handled automatically, not on a spreadsheet.</p>
+      </div>
+    </div>
+    <div class="col" style="margin-top:18px; background:rgba(124,77,255,.07); border-top:2px solid rgba(124,77,255,.4); border-radius:12px; padding:18px 20px;">
+      <h3 style="color:#b39ddb; opacity:1; letter-spacing:1.5px; text-transform:uppercase; font-size:11px; margin-bottom:8px;">City-level steering · United States</h3>
+      <p>Network A preferred nationwide. IPN detects Network B delivers better coverage in Washington, DC → auto-steers subscribers there without breaking the commercial commitment.</p>
+    </div>
+    <div class="keymsg">Works at scale, with granularity, in <strong>real-world messy environments</strong>.</div>
+  </div>
+
+  <!-- S8: Competence in Delivery -->
+  <div class="slide act2">
+    <div class="act-pill">Act 2 · Competence in delivery</div>
+    <h2>50+ Years of Roaming for Your Needs</h2>
+    <p style="opacity:.55; margin-bottom:18px;">One Steering is the result of a unique collaboration between two industry leaders with a combined 50+ years of experience in roaming.</p>
+    <div class="cols">
+      <div class="col tomia-col">
+        <h3>TOMIA — Network Excellence</h3>
+        <p>Led the development of roaming value-added services, delivering advanced steering. Brings the execution intelligence.</p>
+      </div>
+      <div class="col mach-col">
+        <h3>MACH — Commercial Intelligence</h3>
+        <p>Pioneered the clearing market, enabling accurate and efficient settlement. Brings the financial precision.</p>
+      </div>
+    </div>
+    <div class="quote" style="margin-top:24px; color: #80deea;">"Together, we offer the perfect combination of Commercial Intelligence and Network Excellence — a closed loop in which commercial intent and network behavior finally work together as one."</div>
+    <div class="keymsg">This collaboration is what makes One Steering <strong>uniquely possible</strong>.</div>
+  </div>
+
+  <!-- S9: Tech stack -->
+  <div class="slide act2">
+    <div class="act-pill">Act 2 · The technology</div>
+    <h2>Technology stack</h2>
+    <div class="cols">
+      <div class="col mach-col">
+        <h3>Infrastructure &amp; data</h3>
+        <ul>
+          <li>AWS S3 — scalability &amp; availability</li>
+          <li>Oracle SQL + Redis + Hadoop</li>
+          <li>ZeroMQ real-time internal messaging</li>
+        </ul>
+      </div>
+      <div class="col tomia-col">
+        <h3>Intelligence &amp; testing</h3>
+        <ul>
+          <li>ML scoring: K-means clustering</li>
+          <li>Strategy-driven reporting BI</li>
+          <li>QAT emulation for full system verification</li>
+        </ul>
+      </div>
+    </div>
+    <div class="keymsg">Enterprise scale — <strong>speed, reliability, and flexibility</strong>.</div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       ACT 3 — VALUE & FUTURE  (3 slides)
+  ══════════════════════════════════════════ -->
+
+  <!-- S10: Business Model -->
+  <div class="slide act3">
+    <div class="act-pill">Act 3 · The business model</div>
+    <h2>Aligning strategy with execution</h2>
+    <div class="cols" style="margin-top:14px;">
+      <div class="col" style="border-top:2px solid rgba(102,187,106,.5);">
+        <h3>Commitment achievement</h3>
+        <p>Forecasts and tracks group commitment progress. Avoids penalties from misaligned steering allocations. Tested on live data — <strong>4–7% annual savings</strong>.</p>
+      </div>
+      <div class="col" style="border-top:2px solid rgba(102,187,106,.5);">
+        <h3>Segment-aware steering</h3>
+        <p>Recognises that NB-IoT, 5G SA, and legacy devices require different network distributions. Policies stay both technically appropriate <em>and</em> commercially aligned.</p>
+      </div>
+    </div>
+    <div class="cols" style="margin-top:12px;">
+      <div class="col" style="border-top:2px solid rgba(102,187,106,.5);">
+        <h3>Geo-specific QoS steering</h3>
+        <p>Granular quality monitoring down to city level. Reduces customer complaints without compromising commercial objectives.</p>
+      </div>
+      <div class="col" style="border-top:2px solid rgba(102,187,106,.5);">
+        <h3>Automated recommendations</h3>
+        <p>Continuous, evidence-based actions — reviewable, downloadable, or provisioned via API. Reduces manual effort and shortens decision cycles.</p>
+      </div>
+    </div>
+    <div class="keymsg">Shared recommendations create a <strong>common decision framework</strong> across commercial, network, and finance teams.</div>
+  </div>
+
+  <!-- S11: Roadmap -->
+  <div class="slide act3">
+    <div class="act-pill">Act 3 · Plan in delivery</div>
+    <h2>Roadmap</h2>
+    <div class="cols" style="margin-top:16px;">
+      <div class="col mach-col">
+        <h3>MACH — One Agreement</h3>
+        <div class="timeline" style="margin-top:12px; flex-direction:column; gap:8px;">
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid #66bb6a; position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:#66bb6a;border-radius:50%;display:block;"></span><strong style="color:#a5d6a7;">Live:</strong> Contracts — group commitments &amp; IoT effective rates</div>
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid #29b6f6; position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:#29b6f6;border-radius:50%;display:block;"></span>IMSI-based discount agreements</div>
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid rgba(255,255,255,.2); position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:rgba(255,255,255,.25);border-radius:50%;display:block;"></span>Cross-commitment calculations</div>
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid rgba(255,255,255,.2); position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:rgba(255,255,255,.2);border-radius:50%;display:block;"></span>BCE integration</div>
+        </div>
+      </div>
+      <div class="col tomia-col">
+        <h3>TOMIA — IPN</h3>
+        <div class="timeline" style="margin-top:12px; flex-direction:column; gap:8px;">
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid #66bb6a; position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:#66bb6a;border-radius:50%;display:block;"></span><strong style="color:#a5d6a7;">Live:</strong> Network quality scoring + city/region-level steering</div>
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid #29b6f6; position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:#29b6f6;border-radius:50%;display:block;"></span>AI agent — chatbot for traffic split distribution &amp; troubleshooting</div>
+          <div style="font-size:13px; padding:6px 0 6px 20px; border-left:2px solid rgba(255,255,255,.2); position:relative;"><span style="position:absolute;left:-5px;top:10px;width:8px;height:8px;background:rgba(255,255,255,.2);border-radius:50%;display:block;"></span>API — dedicated steering per lac-cell</div>
+        </div>
+      </div>
+    </div>
+    <div class="keymsg">A <strong>living product</strong> with a clear, ambitious roadmap.</div>
+  </div>
+
+  <!-- S12: Close -->
+  <div class="slide act4">
+    <div class="act-pill">Closing · summary</div>
+    <h2>The loop is closed.</h2>
+    <div class="big-num">Up to 7%</div>
+    <p style="opacity:.4; font-size:14px; margin-bottom:0;">annual roaming cost savings · tested on live operator data</p>
+    <div class="quote" style="margin-top:18px; color:#b39ddb;">"One Steering aligns commercial strategy with network execution, turning insights into automated actions and providing a holistic perspective and enhanced control of the business. It helps operators optimize commitments, unlock up to 7% in annual cost savings, and enables stronger collaboration across commercial, network, and finance teams."</div>
+    <p style="margin-top:14px; font-size:12.5px; opacity:.3;">
+      Genesis Lion's Den · June 15–16 2026 · Limerick, Ireland &nbsp;·&nbsp; The Innovators 2026 by ROCCO
+    </p>
+    <div class="keymsg"><strong>50+ years</strong> of combined expertise — Commercial Intelligence + Network Excellence.</div>
+  </div>
+
+  <!-- S13: Manager checklist -->
+  <div class="slide act4">
+    <div class="act-pill">Manager meeting · checklist</div>
+    <h2>Don't forget</h2>
+    <div class="check-grid">
+      <div class="check-item"><div class="box"></div>The needle in a haystack — IoT growth, TAP vs BCE, manual chaos</div>
+      <div class="check-item"><div class="box"></div>Network side — 2G/3G shutdowns, quality = revenue lever</div>
+      <div class="check-item"><div class="box"></div>Fragmented market — silos, partial automation, no cross-service link</div>
+      <div class="check-item"><div class="box"></div>Loop reveal — the "aha" moment</div>
+      <div class="check-item"><div class="box"></div>MACH = Commercial Intelligence · TOMIA = Network Excellence</div>
+      <div class="check-item"><div class="box"></div>3 scenarios: group commitment, cross-commitment, city-level steering</div>
+      <div class="check-item"><div class="box"></div>50+ years — unique collaboration, only possible together</div>
+      <div class="check-item"><div class="box"></div>Business model: 5 value props, 4–7% savings on real data</div>
+      <div class="check-item"><div class="box"></div>Roadmap: MACH (Contracts→IMSI→Cross→BCE) · TOMIA (AI agent + lac-cell API)</div>
+      <div class="check-item"><div class="box"></div>Summary quote — holistic perspective, enhanced control, stronger collaboration</div>
+    </div>
+  </div>
+
+</div><!-- #deck -->
+
+<!-- nav -->
+<div id="nav">
+  <button id="prev" onclick="go(-1)" disabled>← Prev</button>
+  <div id="progress"></div>
+  <button id="next" onclick="go(1)">Next →</button>
+  <div id="counter">1 / 13</div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const prog   = document.getElementById('progress');
+  const total  = slides.length;
+  let cur = 0;
+
+  // act groups: opening[0] | challenges[1,2,3] | solution[4,5,6,7,8] | value[9,10] | close[11,12]
+  const groups = [[0],[1,2,3],[4,5,6,7,8],[9,10],[11,12]];
+
+  const dots = [];
+  groups.forEach((g, gi) => {
+    g.forEach(i => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => goTo(i);
+      dots.push({ el: d, idx: i });
+      prog.appendChild(d);
+    });
+    if (gi < groups.length - 1) {
+      const sep = document.createElement('div');
+      sep.className = 'dot-sep';
+      prog.appendChild(sep);
+    }
+  });
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const old = cur;
+    setTimeout(() => slides[old].classList.remove('exit'), 420);
+    cur = n;
+    slides[cur].classList.add('active');
+    dots.forEach(d => d.el.classList.toggle('active', d.idx === cur));
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === total - 1;
+    document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
+  }
+
+  function go(dir) { goTo(Math.max(0, Math.min(total - 1, cur + dir))); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+</script>
+</body>
+</html>
