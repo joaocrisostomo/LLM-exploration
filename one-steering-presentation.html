@@ -296,32 +296,96 @@
        ACT 1 — THE CHALLENGES  (3 slides)
   ══════════════════════════════════════════ -->
 
-  <!-- S2: The Needle in a Haystack -->
+  <!-- S2: The Agreement Explosion -->
   <div class="slide act1">
     <div class="act-pill">Act 1 · The needle in a haystack</div>
-    <h2>Where commercial ambition meets operational reality</h2>
-    <ul>
-      <li>IoT growth turned one agreement per partner into <span class="hl-red">4–5 agreements</span> — operators are no longer dealing with a single retail-focused segment</li>
-      <li>Three settlement mechanisms coexist: <span class="hl-red">TAP · IoT Discount · BCE</span> — often across different billing platforms</li>
-      <li>Calculations handled manually → discrepancies, delayed settlements, slower cash flow</li>
-    </ul>
-    <div class="stats" style="margin-top:22px;">
-      <div class="stat"><div class="num">300%</div><div class="lbl">Projected IoT roaming growth</div></div>
-      <div class="stat"><div class="num">4–5×</div><div class="lbl">Agreement multiplication per partner</div></div>
-      <div class="stat"><div class="num">$2M</div><div class="lbl">Dispute cost per MNO · up to 3 months to resolve</div></div>
+    <h2>The Agreement Explosion</h2>
+
+    <!-- layout: bullets left, SVG pipeline right -->
+    <div style="display:flex; gap:32px; align-items:flex-start; margin-top:14px;">
+      <div style="flex:1;">
+        <ul>
+          <li>IoT growth turned one agreement per partner into <span class="hl-red">4–5 agreements</span> — no longer a single retail-focused segment</li>
+          <li>Three settlement mechanisms now coexist, each on separate billing platforms</li>
+          <li>Calculations handled manually → discrepancies, delayed settlements, slower cash flow</li>
+        </ul>
+        <div class="stats" style="margin-top:18px; flex-direction:column; gap:10px; display:flex;">
+          <div class="stat" style="text-align:left; padding:10px 14px; display:flex; align-items:center; gap:14px;">
+            <div class="num" style="font-size:26px; min-width:52px;">4–5×</div><div class="lbl" style="text-align:left;">Agreement multiplication per partner</div>
+          </div>
+          <div class="stat" style="text-align:left; padding:10px 14px; display:flex; align-items:center; gap:14px;">
+            <div class="num" style="font-size:26px; min-width:52px; color:#ef9a9a;">$2M</div><div class="lbl" style="text-align:left;">Dispute cost per MNO · up to 3 months</div>
+          </div>
+        </div>
+        <div class="refs" style="margin-top:12px;">
+          <a href="https://kaleidointelligence.com/product/iot-roaming-market-strategies-outlook-2025/" target="_blank">Kaleido Intelligence</a> ·
+          <a href="https://www.gsma.com/get-involved/working-groups/interoperability-data-specifications-and-settlement-group/billing-and-charging-evolution" target="_blank">GSMA BCE</a> ·
+          <a href="https://tomiaglobal.com/insights/5-roaming-challenges-in-5-minutes" target="_blank">TOMIA</a>
+        </div>
+      </div>
+
+      <!-- SVG: three parallel pipelines (TAP / IoT Discount / BCE) -->
+      <div style="flex:0 0 300px; padding-top:4px;">
+        <svg viewBox="0 0 300 210" width="300" height="210" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+          <defs>
+            <linearGradient id="pipe-tap" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ef5350;stop-opacity:.7"/>
+              <stop offset="100%" style="stop-color:#ef5350;stop-opacity:.2"/>
+            </linearGradient>
+            <linearGradient id="pipe-iot" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ffa726;stop-opacity:.7"/>
+              <stop offset="100%" style="stop-color:#ffa726;stop-opacity:.2"/>
+            </linearGradient>
+            <linearGradient id="pipe-bce" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ab47bc;stop-opacity:.7"/>
+              <stop offset="100%" style="stop-color:#ab47bc;stop-opacity:.2"/>
+            </linearGradient>
+            <marker id="arr-tap" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#ef5350" opacity=".7"/>
+            </marker>
+            <marker id="arr-iot" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#ffa726" opacity=".7"/>
+            </marker>
+            <marker id="arr-bce" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#ab47bc" opacity=".7"/>
+            </marker>
+          </defs>
+
+          <!-- labels left -->
+          <text x="0" y="44" font-size="12" fill="#ef9a9a" font-family="Segoe UI,Arial,sans-serif" font-weight="600">TAP</text>
+          <text x="0" y="109" font-size="12" fill="#ffcc80" font-family="Segoe UI,Arial,sans-serif" font-weight="600">IoT Discount</text>
+          <text x="0" y="174" font-size="12" fill="#ce93d8" font-family="Segoe UI,Arial,sans-serif" font-weight="600">BCE</text>
+
+          <!-- pipe 1: TAP -->
+          <rect x="80" y="28" width="170" height="22" rx="11" fill="url(#pipe-tap)" opacity=".25"/>
+          <line x1="80" y1="39" x2="244" y2="39" stroke="#ef5350" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-tap)" opacity=".8"/>
+
+          <!-- pipe 2: IoT Discount -->
+          <rect x="80" y="93" width="170" height="22" rx="11" fill="url(#pipe-iot)" opacity=".25"/>
+          <line x1="80" y1="104" x2="244" y2="104" stroke="#ffa726" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-iot)" opacity=".8"/>
+
+          <!-- pipe 3: BCE -->
+          <rect x="80" y="158" width="170" height="22" rx="11" fill="url(#pipe-bce)" opacity=".25"/>
+          <line x1="80" y1="169" x2="244" y2="169" stroke="#ab47bc" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-bce)" opacity=".8"/>
+
+          <!-- "no connection" X between pipes -->
+          <text x="256" y="44"  font-size="14" fill="#ef5350" opacity=".5" font-family="Segoe UI,Arial,sans-serif">↛</text>
+          <text x="256" y="109" font-size="14" fill="#ffa726" opacity=".5" font-family="Segoe UI,Arial,sans-serif">↛</text>
+          <text x="256" y="174" font-size="14" fill="#ab47bc" opacity=".5" font-family="Segoe UI,Arial,sans-serif">↛</text>
+
+          <!-- caption -->
+          <text x="150" y="204" font-size="10" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif">Three mechanisms. Three platforms. Zero connection.</text>
+        </svg>
+      </div>
     </div>
-    <div class="refs">
-      <a href="https://kaleidointelligence.com/product/iot-roaming-market-strategies-outlook-2025/" target="_blank">Kaleido Intelligence</a> ·
-      <a href="https://www.gsma.com/get-involved/working-groups/interoperability-data-specifications-and-settlement-group/billing-and-charging-evolution" target="_blank">GSMA BCE</a> ·
-      <a href="https://tomiaglobal.com/insights/5-roaming-challenges-in-5-minutes" target="_blank">TOMIA – 5 Roaming Challenges</a>
-    </div>
+
     <div class="keymsg"><strong>TAP</strong> = per-event voice-era billing since 1991. &nbsp;<strong>BCE</strong> = flexible, aggregated, IoT/5G-native successor.</div>
   </div>
 
   <!-- S3: Network side broken -->
   <div class="slide act1">
     <div class="act-pill">Act 1 · The needle in a haystack</div>
-    <h2>On the network side — the same complexity</h2>
+    <h2>New Operational Demands</h2>
     <ul>
       <li>Steering services must replicate every commercial segment into multiple network configurations — device types, access technologies, usage patterns all diverge</li>
       <li>Operators must dynamically steer subscribers amid the ongoing phase-out of <span class="hl-red">2G/3G networks</span> — <strong>278</strong> shutdowns across 83 countries, 2025 is peak year</li>
